@@ -41,11 +41,12 @@ class CardBox extends React.Component {
 		}
 	}
 	render() {
+		let loadingTexts = ['wheels up', 'pushing back','getting you there','buckle up','taking off'];
 		if (this.props.fetching){
 			return (
 				<div className='seven-view'>
 					<div className="card-title">
-						✈  ✈  ✈ wheels up  ✈  ✈  ✈
+						✈  ✈  ✈ {loadingTexts[Math.floor(Math.random()*loadingTexts.length)]}  ✈  ✈  ✈
 						<div id="loader"><Loading type='spokes' color='#333' /></div>
 					</div>
 				</div>)
