@@ -29,7 +29,6 @@ function d3LineDraw (targetDOM, endpoint) {
       let data = transformLivePriceData(price);
       function showData(obj, d) {
        let coord = d3.mouse(obj);
-       console.log(coord);
        let infobox = $(".infobox"+targetDOM);
        // now we just position the infobox roughly where our mouse is
        infobox.css("left", (coord[0]) + "px" );
