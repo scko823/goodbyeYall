@@ -74,6 +74,22 @@ body {
   background-repeat: no-repeat;
 }
 
+.goodbye {
+	padding-left: 15%;
+}
+
+.goodbye button {
+	margin-top:0;
+	margin-left:50px;
+	background-color: rgb(255, 255, 255);
+	color:black;
+}
+
+.goodbye button:hover {
+	background-color: rgb(255, 255, 255);
+	color:black;
+}
+
 /*PHOTO ROLL ELEMENTS////////////////////////*/
 /*//////////////////////////////////////////*/
 .photo-roll {
@@ -671,4 +687,3 @@ footer {
     }
 
 }
-

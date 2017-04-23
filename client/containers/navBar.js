@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Link } from 'react-router';
-import { Navbar, Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
+import { Button, Glyphicon, Navbar, Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import AirportDropdown from './airportDropdown';
 import { connect } from 'react-redux';
@@ -13,11 +13,27 @@ import { IS_LOGGED_IN, changeLogin } from '../actions/isLoggedIn';
 //renders navBar component
 
 class NavBar extends React.Component{
-
+  constructor(props){
+    super(props);
+    let lastDismissed = localStorage.getItem('lastDismissed') || 0;
+    this.state = {
+      showDismiss: (new Date().getTime() - lastDismissed) > (60*1000)
+    }
+  }
 
   componentWillMount(){
     localStorage.setItem('originairport', (localStorage.getItem('originairport')|| "AUS-sky"));
     this.profilePhoto = (localStorage.getItem('goodbyeyall.profile_photo'));
+    this.timer = setInterval(()=>{
+      let lastDismissed = localStorage.getItem('lastDismissed') || 0;
+      this.setState({
+        showDismiss: (new Date().getTime() - lastDismissed) > (60*1000)
+      })
+    },60*1000)
+  }
+
+  componentWillUnmount(){
+    clearInterval(this.timer)
   }
 
   logout(){
@@ -26,11 +42,17 @@ class NavBar extends React.Component{
     window.location.assign('/');
   }
 
+  dismiss(){
+    localStorage.setItem('lastDismissed', new Date().getTime())
+    this.setState({showDismiss:false})
+  }
+
   render(){
     let redirect_uri = process.env.NODE_ENV==="production" ? 'http://www.goodbyeyall.com/Preferences' : 'http://localhost:4000/Preferences';
     let facebookAuthUrl = `http://www.facebook.com/dialog/oauth?client_id=1071311906250508&scope=email&response_type=token&redirect_uri=${redirect_uri}`;
     return (
     <div className="container">
+      <div>we are no longer working on this</div>
       <Navbar className="navbar-fixed-top">
         <Navbar.Header>
           <Navbar.Brand className="logo">
@@ -59,8 +81,16 @@ class NavBar extends React.Component{
          { !this.props.isLoggedIn ? <a href={facebookAuthUrl}><img className="fb-login-button" src="/assets/images/facebookLoginBtn.png" /></a> : null}
         </Nav>
       </Navbar>
+      {
+        this.state.showDismiss ?
+          <div className="seven-view pull-right goodbye">
+          The Traveling Codesmen are no longer maintaining or updating the site. Thank you for your interest.
+          <Button bsSize="xsmall" onClick={this.dismiss.bind(this)}><Glyphicon glyph="remove" /></Button>
+          </div> : null
+      }
       {this.props.children}
     </div>
+
   )};
 };
 
